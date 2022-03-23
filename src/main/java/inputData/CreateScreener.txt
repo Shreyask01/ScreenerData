@@ -1,0 +1,6 @@
+Profit growth 5Years >15 AND
+Sales growth 5Years >15 AND
+Return on capital employed >20 AND
+Return on equity > 15 AND
+ Market Capitalization > 5000 AND
+Price to Earning < 30
