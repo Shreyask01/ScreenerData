@@ -1,9 +1,13 @@
 package utilities;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Hashtable;
+import java.util.Scanner;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
@@ -23,6 +27,8 @@ public class Utilities extends TestBase {
 //	public static void flushExtentReport() {
 //		report.flush();
 //	}
+	
+	public String screener;
 
 	public static String capture(WebDriver driver) throws IOException {
 		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -68,9 +74,12 @@ public class Utilities extends TestBase {
 
 	}
 
-	public static void createExtentReport() {
-		// TODO Auto-generated method stub
+	
 
-	}
+
+//	public static void createExtentReport() {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 }

@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
@@ -17,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -42,6 +44,8 @@ public class TestBase {
 	public static String password;
 	public static String gettext;
 	public static Hashtable<String, String> helper = new Hashtable<String, String>();
+	public  static String screener;
+	public Hashtable<Integer,String> fb;
 
 	public static String timeStamp = new SimpleDateFormat("ddMMyyHHmmss").format(Calendar.getInstance().getTime());
 
@@ -51,7 +55,8 @@ public class TestBase {
 		System.setProperty("FolderLocation", timeStamp);
 		System.setProperty("CurrentDate", dateformat.format(new Date()));
 	}
-
+	
+	//This is for Git commit
 
 	private static final Logger logger = LogManager.getLogger(TestBase.class);
 
@@ -73,8 +78,7 @@ public class TestBase {
 		OR = new Properties();
 		OR.load(fs);
 
-		excel = new ExcelReader(System.getProperty("user.dir") + "\\src\\main\\java\\InputData\\"
-				+ pro.getProperty("ExcelsheetName") + ".xlsx");
+		excel = new ExcelReader(System.getProperty("user.dir") + "\\src\\main\\java\\InputData\\"+ pro.getProperty("ExcelsheetName")+".xlsx");
 
 //		username = pro.getProperty("username");
 //		password = pro.getProperty("password");
@@ -85,9 +89,20 @@ public class TestBase {
 		File src = new File(System.getProperty("user.dir") + "\\src\\main\\java\\InputData\\"
 				+ pro.getProperty("ExcelsheetName") + ".xlsx");
 		File dest = new File(
-				System.getProperty("user.dir") + "\\Outputs\\" + timeStamp + "\\Largecap_" + timeStamp + ".xlsx");
+				System.getProperty("user.dir") + "\\Outputs\\" +"\\"+ timeStamp +"\\"+ pro.getProperty("ExcelsheetName") +"\\"+ timeStamp + ".xlsx");
 		FileUtils.copyFile(src, dest);
 	}
+	
+	
+	
+//	public static void copyOutputFile() throws IOException {
+//		File src = new File(System.getProperty("user.dir") + "\\src\\main\\java\\InputData\\"
+//				+ pro.getProperty("ExcelsheetName") + ".xlsx");
+//		File dest = new File(
+//				System.getProperty("user.dir") + "\\Outputs\\" + timeStamp + "\\Largecap_" + timeStamp + ".xlsx");
+//		FileUtils.copyFile(src, dest);
+//	}
+	
 
 	public static void invokeBrowser() throws IOException {
 		String URL = pro.getProperty("URL");
@@ -106,7 +121,7 @@ public class TestBase {
 		}
 
 		driver.get(URL);
-		//test.log(LogStatus.PASS, test.addScreenCapture(Utilities.capture(driver)));
+		// test.log(LogStatus.PASS, test.addScreenCapture(Utilities.capture(driver)));
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
@@ -135,8 +150,8 @@ public class TestBase {
 		}
 
 		return gettext;
-        }
-	
+	}
+
 	public static void setText(String locator, String value) throws IOException {
 
 		if (locator.endsWith("_XPATH")) {
@@ -151,7 +166,6 @@ public class TestBase {
 
 	}
 
-	
 	public static void pressKey(String locator, Keys key) throws IOException {
 
 		if (locator.endsWith("_XPATH")) {
@@ -166,10 +180,9 @@ public class TestBase {
 
 	}
 
-	
 	public static String getTextFromElement(String locator) {
-		String elementText ="";
-		
+		String elementText = "";
+
 		if (locator.endsWith("_XPATH")) {
 			elementText = driver.findElement(By.xpath(OR.getProperty(locator))).getText();
 		} else if (locator.endsWith("_CSS")) {
@@ -183,15 +196,41 @@ public class TestBase {
 	}
 	
 	
-	
-	
-	
 
+	public static String getInputText() throws IOException {
+
+		File file = new File(System.getProperty("user.dir") + "\\src\\main\\java\\InputData\\"
+				+ pro.getProperty("textfile") + ".txt");
+
+		Scanner sc = new Scanner(file);
+
+		screener = sc.nextLine();
+
+		while (sc.hasNextLine()) {
+
+			screener = screener + " " + sc.nextLine();
+		}
+		System.out.println(screener);
+
+		return screener;
+
+	}
 	
 	
 	
-	
-	
+	public Hashtable<Integer, String> getFundamentalBulls() {
+		
+
+		
+		fb = new Hashtable();
+		for (int i = 1; i<=10;i++) {
+			
+			fb.put(i,driver.findElement(By.xpath("//a[contains(text(),'S.No.')]/parent::th/parent::tr/following-sibling::tr["+i+"]/td[2]/a[1]")).getText() );
+			
+			}
+		
+		return fb;
+	}
 	
 	
 

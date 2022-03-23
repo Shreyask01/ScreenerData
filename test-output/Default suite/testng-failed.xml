@@ -7,7 +7,7 @@
         <methods>
           <include name="loginToScreen"/>
           <include name="setUp"/>
-          <include name="largeCapTest"/>
+          <include name="largeCapTest" invocation-numbers="1"/>
         </methods>
       </class> <!-- testCases.LargeCapTest -->
     </classes>
